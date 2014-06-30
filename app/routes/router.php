@@ -1,9 +1,10 @@
 <?php
 
-	##TEST ROUTER
+	# Index Route
 	$app->get('/', function () {
-		echo "Hello from ../routes/router.php";
-    });
+    //Show users
+		echo "Hello";
+	});
 
 	# Define a GET Method Route
 	$app->get('/users/', function () {
@@ -18,7 +19,7 @@
     //Show user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> get();
+		$c -> get($id);
 	});
 
 	# Define a POST Method Route
@@ -34,7 +35,7 @@
     //Update user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> put();
+		$c -> put($id);
 	});
 
 	# Define a DELETE Method Route
@@ -42,7 +43,5 @@
     //Delete user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> delete();
+		$c -> delete($id);
     });
-
-?>
