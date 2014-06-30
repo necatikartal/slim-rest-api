@@ -10,4 +10,7 @@
 
     $app -> run();
 
+
+   include "../app/views/index.html";
+
  ?>
