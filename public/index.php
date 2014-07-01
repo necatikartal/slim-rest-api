@@ -11,6 +11,6 @@
     $app -> run();
 
 
-   include "../app/views/index.html";
+    //include "../app/views/index.html";
 
  ?>
