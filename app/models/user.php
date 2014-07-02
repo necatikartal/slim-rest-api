@@ -15,39 +15,25 @@ class User {
 	# Define a SELECT Method 
 	public function select($id = null) {
 
-		$cmd = "SELECT id, username, userpassword FROM users";
-		$cmd.= ($id == null) ? "" :  " WHERE id=" . $id ;
-
-		$this->resource->query($cmd);
-
-		$resultSet = array();
-		foreach($this->resource->query($cmd) as $row) {
-			$tmp = array(
-					'id' => $row["id"], 
-					'username' => $row["username"], 
-					"userpassword" => $row["userpassword"]);
-				array_push($resultSet, $tmp);
-			}
-		
+		$resultSet = ($id == null) ? 
+		$this->resource->fetchAll("SELECT id, username, userpassword FROM users") :
+		$this->resource->fetchArray("SELECT id, username, userpassword FROM users WHERE id= ?" , array($id));
 		echo json_encode($resultSet);
 	}
 
 	# Define a INSERT Method 
 	public function insert($data){
-		$this->resource->prepare("INSERT INTO users ( username , userpassword) VALUES (?,?)");
-		$this->resource->execute(array($data['username'], $data['userpassword']));
+		$this->resource->insert('users', array('username' => $data['username'], 'userpassword' => $data['userpassword']));
 	}
 
 	# Define a UPDATE Method
 	public function update($id , $data){
-		$cmd = "UPDATE users SET userpassword=" . $data['userpassword'] . "WHERE id=" . $id;
-		$this->resource->exec($cmd);
+		$this->resource->update('users', array('userpassword' => $data['userpassword']), array('id' => $id));
 	}
 
 	# Define a DELETE Method
 	public function delete($id){
-		$cmd = "DELETE FROM users WHERE id=" . $id;
-		$this->resource->exec($cmd);
+		$this->resource->delete('users', array('id' => $id));
 	}
 
 }

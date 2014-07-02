@@ -14,8 +14,17 @@ class dbconnect {
 
         require "../library/config.php";
 
-        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USERNAME , DB_PASSWORD) 
-        or die('Could not connect to MySQL server.');
+        $config = new \Doctrine\DBAL\Configuration();
+
+        $connectionParams = array(
+            'dbname' => DB_NAME,
+            'user' => DB_USERNAME,
+            'password' => DB_PASSWORD,
+            'host' => DB_HOST,
+            'driver' => 'pdo_mysql',
+        );
+        
+        $db = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
 
         return $db;
     }
