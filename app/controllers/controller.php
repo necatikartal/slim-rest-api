@@ -11,12 +11,13 @@ class controller {
 		include "../app/models/user.php";
 		$m = new user;
 		
-		if ($order != null)
-			$m -> orderUsers($order, $dir);
-		elseif($id != null)
+		if ($order != null) {
+			$m -> orderUsers($order, $dir); 
+		} elseif($id != null) {
 			$m -> getUser($id);
-		else 
-			$m -> getUsers();
+		} else {
+			$m -> getUsers(); 
+		}
 	}
 
 	# Define a POST Method Controller
