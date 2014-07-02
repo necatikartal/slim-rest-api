@@ -7,30 +7,36 @@ class controller {
 	}
 
 	# Define a GET Method Controller
-	public function get($id = null) {
+	public function get($id = null, $order =null, $dir ="ASC") {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> select($id);
+		
+		if ($order != null)
+			$m -> orderUsers($order, $dir);
+		elseif($id != null)
+			$m -> getUser($id);
+		else 
+			$m -> getUsers();
 	}
 
 	# Define a POST Method Controller
 	public function post($data) {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> insert($data);
+		$m -> insertUser($data);
 	}
 
 	# Define a PUT Method Controller
 	public function put($id, $data) {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> update($id, $data);
+		$m -> updateUser($id, $data);
 	}
 
 	# Define a DELETE Method Controller
 	public function delete($id) {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> delete($id);
+		$m -> deleteUser($id);
 	}
 }
