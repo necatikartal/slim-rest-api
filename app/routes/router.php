@@ -7,11 +7,15 @@
 	});
 
 	# Define a GET Method Route
-	$app->get('/users/', function () {
+	$app->get('/users/', function () use($app) {
     //Show users
 		include "../app/controllers/controller.php";
+
+		$order = $app->request()->params('order');
+		$dir = $app->request()->params('dir');
+
 		$c = new controller;
-		$c -> get();
+		$c -> get(null, $order, $dir);
 	});
 
 	# Define a GET Method Route
@@ -19,7 +23,7 @@
     //Show user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> get($id);
+		$c -> get($id, null, null);
 	});
 
 	# Define a POST Method Route //Create user
@@ -39,7 +43,7 @@
 
 		$userpassword = $app->request()->params('userpassword');
 
-		$c -> post($id, array('userpassword' => $userpassword ));
+		$c -> put($id, array('userpassword' => $userpassword ));
 		$c = new controller;	
 	});
 
