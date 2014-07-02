@@ -2,7 +2,7 @@
 
 class dbconnect {
  
-    private $this;
+    private $db;
  
     # Define default construct
     public function __construct() {       
@@ -13,11 +13,10 @@ class dbconnect {
     public function connect() {
 
         require "../library/config.php";
- 
-        $this->link = mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD) or die('Could not connect to MySQL server.');      
-        mysql_select_db(DB_NAME, $this->link);
-        mysql_set_charset('UTF-8', $this->link);
+        
+        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USERNAME , DB_PASSWORD) 
+        or die('Could not connect to MySQL server.');
 
-        return $this->link;
+        return $db;
     }
 }
