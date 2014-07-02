@@ -22,32 +22,29 @@
 		$c -> get($id);
 	});
 
-	# Define a POST Method Route
-	$app->post('/users', function () {
-    //Create user
+	# Define a POST Method Route //Create user
+	$app->post('/users', function () use($app) {
 		include "../app/controllers/controller.php";
+		
+		$username = $app->request()->params('username');
+		$userpassword = $app->request()->params('userpassword');
+
 		$c = new controller;
-
-		if(isset($_POST['username']) && $_POST['userpassword']) {
-			$c -> post(array('username'=> $_POST['username'], 'userpassword' => $_POST['userpassword'] ));
-		} else die("Invalid args");
-
+		$c -> post(array('username'=> $username, 'userpassword' => $userpassword));
 	});
 
-	# Define a PUT Method Route
-	$app->put('/users/:id', function ($id) {
-    //Update user identified by $id
+	# Define a PUT Method Route //Update user identified by $id
+	$app->put('/users/:id', function ($id) use($app) {
 		include "../app/controllers/controller.php";
-		$c = new controller;
 
-		if(isset($_POST['userpassword'])) {
-			$c -> post($id, array('userpassword' => $_POST['userpassword'] ));
-		} else die("Invalid args");		
+		$userpassword = $app->request()->params('userpassword');
+
+		$c -> post($id, array('userpassword' => $userpassword ));
+		$c = new controller;	
 	});
 
-	# Define a DELETE Method Route
+	# Define a DELETE Method Route //Delete user identified by $id
 	$app->delete('/users/:id', function ($id) {
-    //Delete user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
 		$c -> delete($id);
