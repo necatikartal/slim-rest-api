@@ -27,7 +27,11 @@
     //Create user
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> post();
+
+		if(isset($_POST['username']) && $_POST['userpassword']) {
+			$c -> post(array('username'=> $_POST['username'], 'userpassword' => $_POST['userpassword'] ));
+		} else die("Invalid args");
+
 	});
 
 	# Define a PUT Method Route
@@ -35,7 +39,10 @@
     //Update user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> put($id);
+
+		if(isset($_POST['userpassword'])) {
+			$c -> post($id, array('userpassword' => $_POST['userpassword'] ));
+		} else die("Invalid args");		
 	});
 
 	# Define a DELETE Method Route
