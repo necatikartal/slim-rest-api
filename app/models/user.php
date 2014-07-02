@@ -40,13 +40,12 @@ class User {
 
 	# Define a order users method
 	public function orderUsers($order, $dir) {
-		$queryBuilder = $this->resource->createQueryBuilder();
-		$queryBuilder
-			->select('u.id','u.username','u.userpassword')
-			->from('users', 'u')
-			->orderBy('?', '?')
-			->setParameter(0, 'u'. $order)
-			->setParameter(1, $dir);
+		$this->queryBuilder
+				->select('u.id','u.username','u.userpassword')
+				->from('users', 'u')
+				->orderBy('?', '?')
+				->setParameter(0, 'u'. $order)
+				->setParameter(1, $dir);
 
 		$result = $this->resource->query($this->queryBuilder);
 		$resultSet = $result->fetchAll();
