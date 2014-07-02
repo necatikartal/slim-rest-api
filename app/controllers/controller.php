@@ -14,17 +14,17 @@ class controller {
 	}
 
 	# Define a POST Method Controller
-	public function post() {
+	public function post($data) {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> insert();
+		$m -> insert($data);
 	}
 
 	# Define a PUT Method Controller
-	public function put($id) {
+	public function put($id, $data) {
 		include "../app/models/user.php";
 		$m = new user;
-		$m -> update($id);
+		$m -> update($id, $data);
 	}
 
 	# Define a DELETE Method Controller
