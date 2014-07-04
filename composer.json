@@ -1,6 +1,7 @@
 {
     "require": {
         "slim/slim": "2.*",
-        "doctrine/dbal": "2.3.4"
+        "doctrine/dbal": "2.3.4",
+        "symfony/yaml": "2.6.*@dev"
     }
 }
