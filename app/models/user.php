@@ -38,4 +38,8 @@ class User {
 		$this->username = $username;
 		$this->userpassword = $userpassword;
 	}
+
+	public function toArray() {
+		return array("id" => $this->getId(), "username" => $this->getUsername(), "userpassword" => $this->getUserpassword());
+	}
 }
