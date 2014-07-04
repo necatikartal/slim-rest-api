@@ -15,7 +15,7 @@
 		$dir = $app->request()->params('dir');
 
 		$c = new controller;
-		$c -> get(null, $order, $dir);
+		$c -> getUsers(null, $order, $dir);
 	});
 
 	# Define a GET Method Route
@@ -23,7 +23,7 @@
     //Show user identified by $id
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> get($id, null, null);
+		$c -> getUsers($id, null, null);
 	});
 
 	# Define a POST Method Route //Create user
@@ -34,7 +34,7 @@
 		$userpassword = $app->request()->params('userpassword');
 
 		$c = new controller;
-		$c -> post(array('username'=> $username, 'userpassword' => $userpassword));
+		$c -> addUser(array('username'=> $username, 'userpassword' => $userpassword));
 	});
 
 	# Define a PUT Method Route //Update user identified by $id
@@ -43,13 +43,13 @@
 
 		$userpassword = $app->request()->params('userpassword');
 
-		$c -> put($id, array('userpassword' => $userpassword ));
-		$c = new controller;	
+		$c = new controller;
+		$c -> updateUser($id, array('userpassword' => $userpassword ));
 	});
 
 	# Define a DELETE Method Route //Delete user identified by $id
 	$app->delete('/users/:id', function ($id) {
 		include "../app/controllers/controller.php";
 		$c = new controller;
-		$c -> delete($id);
+		$c -> deleteUser($id);
     });
