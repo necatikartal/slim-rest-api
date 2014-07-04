@@ -1,43 +1,77 @@
 <?php
 
+use Symfony\Component\Yaml\Parser;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+include "../app/models/user.php";
+
 class controller {
 
-	# Define default construct
+	private $resource; 
+	private $queryBuilder;
+
 	public function __construct() {
+		$this->resource = $this->connect();
+		$this->queryBuilder = $this->resource->createQueryBuilder();
 	}
 
-	# Define a GET Method Controller
-	public function get($id = null, $order =null, $dir ="ASC") {
-		include "../app/models/user.php";
-		$m = new user;
+	public function connect() {
+
+        $yaml = new Parser();
+        $connectionParams = $yaml->parse(file_get_contents('../config/dbconfig.yml'));
+
+        $config = new Configuration();  
+        $db = DriverManager::getConnection($connectionParams, $config);
+
+        return $db;
+    }
+
+	public function getUsers($id = null, $order =null, $dir ="ASC") {
 		
 		if ($order != null) {
-			$m -> orderUsers($order, $dir); 
+			$this->queryBuilder
+				->select('u.id','u.username','u.userpassword')
+				->from('users', 'u')
+				->orderBy('?', '?')
+				->setParameter(0, 'u'. $order)
+				->setParameter(1, $dir);
 		} elseif($id != null) {
-			$m -> getUser($id);
+			$this->queryBuilder
+				->select('u.id','u.username','u.userpassword')
+				->from('users', 'u')
+				->where('u.id = ?')
+				->setParameter(0, $id);
 		} else {
-			$m -> getUsers(); 
+			$this->queryBuilder
+				->select('u.id','u.username','u.userpassword')
+				->from('users', 'u');
 		}
+
+		$result = $this->resource->query($this->queryBuilder);
+		$resultSet = $result->fetchAll();
+
+		$users = array();
+		foreach ($resultSet as $key => $value) {
+			$user = new user;
+			$user->setId($value['id']);
+			$user->setUsername($value['username']);
+			$user->setUserpassword($value['userpassword']);
+			array_push($users, $user->toArray());
+		}
+		echo json_encode($users);
 	}
 
-	# Define a POST Method Controller
-	public function post($data) {
-		include "../app/models/user.php";
-		$m = new user;
-		$m -> insertUser($data);
+	public function addUser($data) {
+		$this->resource->insert('users', array('username' => $data['username']
+			, 'userpassword' => $data['userpassword']));
 	}
 
-	# Define a PUT Method Controller
-	public function put($id, $data) {
-		include "../app/models/user.php";
-		$m = new user;
-		$m -> updateUser($id, $data);
+	public function updateUser($id, $data) {
+		$this->resource->update('users', array('userpassword' => $data['userpassword'])
+			, array('id' => $id));
 	}
 
-	# Define a DELETE Method Controller
-	public function delete($id) {
-		include "../app/models/user.php";
-		$m = new user;
-		$m -> deleteUser($id);
+	public function deleteUser($id) {
+		$this->resource->delete('users', array('id' => $id));
 	}
 }
