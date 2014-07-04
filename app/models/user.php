@@ -29,7 +29,7 @@ class User {
 		$this->userpassword = $userpassword;
 	}
 
-	public function getUsername() {
+	public function getUserpassword() {
 		return $this->userpassword;
 	}
 
