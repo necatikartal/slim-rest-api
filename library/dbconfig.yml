@@ -1,0 +1,7 @@
+#Config params
+dbname: SlimRESTDb
+user: root
+password: nctkrtl13
+host: localhost
+driver: pdo_mysql
+charset: UTF8
