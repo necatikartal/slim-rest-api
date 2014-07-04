@@ -1,5 +1,9 @@
 <?php
 
+use Symfony\Component\Yaml\Parser;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+
 class dbconnect {
  
     private $db;
@@ -12,19 +16,11 @@ class dbconnect {
     //@return resource 
     public function connect() {
 
-        require "../library/config.php";
+        $yaml = new Parser();
+        $connectionParams = $yaml->parse(file_get_contents(__DIR__.'/dbconfig.yml'));
 
-        $config = new \Doctrine\DBAL\Configuration();
-
-        $connectionParams = array(
-            'dbname' => DB_NAME,
-            'user' => DB_USERNAME,
-            'password' => DB_PASSWORD,
-            'host' => DB_HOST,
-            'driver' => 'pdo_mysql',
-        );
-        
-        $db = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $config = new Configuration();  
+        $db = DriverManager::getConnection($connectionParams, $config);
 
         return $db;
     }
