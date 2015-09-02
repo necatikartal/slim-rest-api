@@ -6,11 +6,7 @@
 
     include "../app/routes/router.php";
 
-   
-
     $app -> run();
 
-
     //include "../app/views/index.html";
-
  ?>
